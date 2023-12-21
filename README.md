@@ -4,6 +4,17 @@ Exercise solutions and cmake projects for:
 
    * AC++11-501-cache Advanced Modern C++ (Cache)
 
+**Contents**
+- [Advanced Modern C++ (Cache) Exercises](#advanced-modern-c-cache-exercises)
+- [Folder structure](#folder-structure)
+  - [Solutions](#solutions)
+- [Build Toolchain](#build-toolchain)
+  - [Build the application](#build-the-application)
+  - [Visual Studio shortcuts](#visual-studio-shortcuts)
+  - [Command line builds](#command-line-builds)
+  - [Building an exercise solution](#building-an-exercise-solution)
+- [Disclaimer](#disclaimer)
+
 # Folder structure
 
 ## Solutions
