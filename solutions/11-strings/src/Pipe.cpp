@@ -4,18 +4,18 @@
 
 #include "Pipe.h"
 
-bool Pipe::push(Alarm const& alarm)
+bool Pipe::push(std::unique_ptr<Alarm> alarm)
 {
-    return buffer.add(alarm);
+    return buffer.add(std::move(alarm));
 }
 
-std::optional<Alarm> Pipe::pull()
+std::unique_ptr<Alarm> Pipe::pull()
 {
-    Alarm alarm{};
+    std::unique_ptr<Alarm> alarm{};
     if (buffer.get(alarm)) {
         return alarm;
     }
-    return std::nullopt;
+    return {};
 }
 
 bool Pipe::is_empty() const
