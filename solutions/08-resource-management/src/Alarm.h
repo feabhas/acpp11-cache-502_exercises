@@ -18,7 +18,7 @@ public:
   ~Alarm();
 
   Alarm(Alarm const& rhs);                  // (6)
-  Alarm&      operator=(Alarm rhs);         // (6)
+  Alarm&      operator=(Alarm const& rhs);         // (6)
   friend void swap(Alarm& lhs, Alarm& rhs); // (6)
 
   const char* as_string() const;

@@ -27,9 +27,10 @@ Alarm::~Alarm()
   delete[] description;
 }
 
-Alarm& Alarm::operator=(Alarm rhs) // swap-copy idiom
+Alarm& Alarm::operator=(Alarm const& rhs)
 {
-  swap(*this, rhs);
+  Alarm temp {rhs};
+  swap(*this, temp);
   return *this;
 }
 
