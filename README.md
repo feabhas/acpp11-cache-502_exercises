@@ -2,7 +2,7 @@
 
 Exercise solutions and cmake projects for:
 
-   * AC++11-501-cache Advanced Modern C++ (Cache)
+   * AC++11-cache-502 Advanced Modern C++ (Cache)
 
 **Contents**
 - [Advanced Modern C++ (Cache) Exercises](#advanced-modern-c-cache-exercises)
