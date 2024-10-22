@@ -2,28 +2,46 @@
 // See project README.md for disclaimer and additional information.
 // Feabhas Ltd
 
-#include <iostream>
-#include "Pipe.h"
 #include "Display.h"
 #include "Generator.h"
 #include "AlarmFilter.h"
+#include "Pipe.h"
+#include <string>
+#include <iostream>
 
-int main()
-{
-  Pipe        pipe1{};
-  Pipe        pipe2{};
-  Generator   generator{ pipe1 }; // associate by construction
-  // generator.associate(pipe1);  // associate by member function
-  // associate(generator, pipe1); // associate by free (friend) function
-  AlarmFilter filter{ Alarm::Type::warning, pipe1, pipe2 };
-  Display     display{ pipe2 };
+int main(int argc, char** argv) {
+  int run_count = (argc > 1) ? std::stoi(argv[1]) : 5;
 
-  for (auto i = 0; i < 3; ++i) {
-    generator.execute();
-    filter.execute();
-    display.execute();
+  {
+    Pipe pipe{};
+    // Generator generator{};
+    Generator generator{pipe};
+    Display display{pipe};
+
+    // connect(generator, pipe);
+    // connect(display, pipe);
+
+    for (int i{0}; i < run_count; ++i) {
+      generator.execute();
+      display.execute();
+    }
   }
 
-  std::cout << "Completed OK" << '\n';
-}
+  std::cout << '\n';
 
+  {
+    Pipe pipe1{};
+    Pipe pipe2{};
+    Generator generator{pipe1};
+    AlarmFilter filter{Alarm::Type::advisory, pipe1, pipe2};
+    Display display{pipe2};
+
+    for (int i{0}; i < run_count; ++i) {
+      generator.execute();
+      filter.execute();
+      display.execute();
+    }
+  }
+
+  std::cout << "\nCompleted OK\n";
+}

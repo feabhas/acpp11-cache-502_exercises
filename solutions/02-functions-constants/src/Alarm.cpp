@@ -5,39 +5,29 @@
 #include "Alarm.h"
 #include <iostream>
 
-Alarm::Alarm()
-{
-  std::clog << "Alarm default ctor\n";
-}
-
 Alarm::Alarm(Type alarm_init) : value{ alarm_init }
-{
-  std::clog << "Alarm non-default ctor\n";
+{}
+
+const char* Alarm::to_string() const {
+  switch (value) {
+  case Type::advisory:
+    return "advisory";
+  case Type::caution:
+    return "caution";
+  case Type::warning:
+    return "warning";
+  default:
+    return "invalid";
+  }
 }
 
-Alarm::~Alarm()
-{
-  std::clog << "Alarm dtor\n";
-}
-
-static const char* lookup_str[] = { "invalid",
-                                    "advisory",
-                                    "caution",
-                                    "warning" };
-
-const char* Alarm::as_string() const
-{
-  return lookup_str[value];
-}
-
-Alarm::Type Alarm::type() const
-{
+Alarm::Type Alarm::type() const {
   return value;
 }
 
-std::ostream& operator<<(std::ostream& os, Alarm const& alarm)
-{
-  return os << static_cast<int>(alarm.type());
+std::ostream& operator<<(std::ostream& os, Alarm const& alarm) {
+  os << alarm.to_string();
+  return os;
 }
 
 Alarm make_alarm(Alarm::Type type)
@@ -48,6 +38,6 @@ Alarm make_alarm(Alarm::Type type)
 void print_alarm(Alarm const& alarm)
 {
   std::cout << static_cast<int>(alarm.type()) << ':'
-            << alarm.as_string()
+            << alarm.to_string()
             << '\n';
 }

@@ -12,7 +12,7 @@
 class Pipe
 {
 public:
-  bool push(Alarm& alarm);
+  bool push(Alarm const& alarm);
   std::optional<Alarm> pull();
   bool is_empty() const;
 

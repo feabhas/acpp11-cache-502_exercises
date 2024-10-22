@@ -16,19 +16,14 @@ AlarmFilter::AlarmFilter(Alarm::Type remove_this, Pipe& in, Pipe& out)
 
 void AlarmFilter::execute()
 {
-  unsigned count{};
-  while (auto alarm = input->pull()) {
+  if (auto alarm = input->pull()) {
     if (alarm->type() != this->value) {
-      output->push(*alarm);
+      output->push(alarm.value());
     }
     else {
-      ++count;
+      std::cout << "Filter:   " << alarm->to_string() << " removed\n";
     }
-  }
-  if (count > 0) {
-    std::cout << "<=>Filter: " << count << " alarm";
-    std::cout << ((count != 1) ? "s" : "") << "\n\n";
-  }
+  } 
 }
 
 void connect(AlarmFilter& filter, Pipe& in, Pipe& out)

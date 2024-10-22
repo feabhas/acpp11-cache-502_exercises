@@ -15,14 +15,15 @@ public:
   Alarm() = default;
   explicit Alarm(Type alarm_init);
 
-  const char* as_string() const;
+  const char* to_string() const;
   Type        type() const;
 
 private:
   Type value{ Type::invalid };
 };
 
-std::ostream& operator<<(std::ostream& os, Alarm const& alarm);
+std::ostream& operator<<(std::ostream& os, const Alarm& alarm);
+
 void  print_alarm(Alarm const& alarm);
 Alarm make_alarm(Alarm::Type type);
 

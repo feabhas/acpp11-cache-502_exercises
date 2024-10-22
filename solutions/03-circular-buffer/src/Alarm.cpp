@@ -3,30 +3,30 @@
 // Feabhas Ltd
 
 #include "Alarm.h"
-#include <array>
 #include <iostream>
 
 Alarm::Alarm(Type alarm_init) : value{ alarm_init }
-{ }
+{}
 
-constexpr std::array<const char*, 4> lookup_str{ "invalid",
-                                                 "advisory",
-                                                 "caution",
-                                                 "warning" };
-
-const char* Alarm::as_string() const
-{
-  return lookup_str[unsigned(value)];
+const char* Alarm::to_string() const {
+  switch (value) {
+  case Type::advisory:
+    return "advisory";
+  case Type::caution:
+    return "caution";
+  case Type::warning:
+    return "warning";
+  default:
+    return "invalid";
+  }
 }
 
-Alarm::Type Alarm::type(/* Alarm  const * const this */) const
-{
+Alarm::Type Alarm::type() const {
   return value;
 }
 
-std::ostream& operator<<(std::ostream& os, Alarm const& alarm)
-{
-  os << alarm.as_string();
+std::ostream& operator<<(std::ostream& os, Alarm const& alarm) {
+  os << alarm.to_string();
   return os;
 }
 
@@ -38,6 +38,6 @@ Alarm make_alarm(Alarm::Type type)
 void print_alarm(Alarm const& alarm)
 {
   std::cout << static_cast<int>(alarm.type()) << ':'
-            << alarm.as_string()
+            << alarm.to_string()
             << '\n';
 }

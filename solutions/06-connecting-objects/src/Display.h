@@ -10,12 +10,13 @@ class Pipe;
 
 class Display {
 public:
-  Display(Pipe& pipe);
+  Display() = default;
+  explicit Display(Pipe& ip);
   void execute();
 
 private:
   Pipe* input{};
-  // friend void connect(Display& display, Pipe& pipe);
+  friend void connect(Display& display, Pipe& pipe);
 };
 
 #endif

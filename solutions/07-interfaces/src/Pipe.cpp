@@ -4,7 +4,7 @@
 
 #include "Pipe.h"
 
-bool Pipe::push(Alarm& alarm)
+bool Pipe::push(Alarm const& alarm)
 {
     return buffer.add(alarm);
 }

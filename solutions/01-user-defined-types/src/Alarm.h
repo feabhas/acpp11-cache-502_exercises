@@ -16,15 +16,14 @@ public:
   ~Alarm();
   explicit Alarm(Type alarm_init);
 
-  const char* as_string();
-  Type        type();
+  Type type() const;
+
+  const char* to_string() const;
 
 private:
-  Type value{ invalid };
-
-  friend std::ostream& operator<<(std::ostream& os, const Alarm& alarm);
+  Type value{Type::invalid};
 };
 
-// std::ostream& operator<<(std::ostream& os, Alarm const& alarm);
+std::ostream& operator<<(std::ostream& os, Alarm const& alarm);
 
 #endif

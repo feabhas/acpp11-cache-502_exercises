@@ -14,14 +14,14 @@ class Buffer {
 public:
   Buffer()         = default;
 
-  bool add(const Alarm& in);
+  bool add(Alarm const& in);
   bool get(Alarm& out);
 
-  bool                  is_empty() const;
-  constexpr std::size_t capacity() const { return sz; }
-
+  bool is_empty() const;
+  bool is_full() const;
+  
 private:
-  static constexpr std::size_t sz{ 16 };
+  static constexpr std::size_t sz{ 8 };
   using Container = std::array<Alarm, sz>;
 
   Container   elems {};

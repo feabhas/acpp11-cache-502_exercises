@@ -63,5 +63,5 @@ int main()
     assert(pipe.is_empty());
   }
 
-  std::cout << "Completed OK" << '\n';
+  std::cout << "Completed OK\n";
 }

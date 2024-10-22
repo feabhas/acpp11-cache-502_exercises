@@ -10,17 +10,16 @@
 
 class Alarm {
 public:
-  enum Type { invalid, advisory, caution, warning };
+  enum class Type { invalid, advisory, caution, warning };
 
-  Alarm();
-  ~Alarm();
+  Alarm() = default;
   explicit Alarm(Type alarm_init);
 
-  const char* as_string() const;
+  const char* to_string() const;
   Type        type() const;
 
 private:
-  Type value{ invalid };
+  Type value{ Type::invalid };
 };
 
 std::ostream& operator<<(std::ostream& os, const Alarm& alarm);

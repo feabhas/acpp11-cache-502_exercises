@@ -10,12 +10,13 @@ class Pipe;
 
 class Generator {
 public:
-  Generator(Pipe& pipe);
+  Generator() = default;
+  explicit Generator(Pipe& pipe);
   void execute();
-  void associate( Pipe& pipe);
+
 private:
   Pipe* output{};
-  friend void associate(Generator& gen, Pipe& pipe);
+  friend void connect(Generator& gen, Pipe& pipe);
 };
 
 #endif

@@ -3,61 +3,61 @@
 // Feabhas Ltd
 
 #include "Alarm.h"
-#include "Buffer.h"
+#include <array>
+#include <string>
 #include <algorithm>
 #include <cassert>
 #include <iostream>
 
-namespace {
-  constexpr std::size_t sz{ 16 };
-}
+static constexpr unsigned alarm_count {12};
 
-int main()
-{
-  Alarm a1;                          //
-  Alarm a2 {};                       // Value-initialised
-  Alarm a3 { Alarm::Type::warning }; // Explicitly initialised
+static std::array<Alarm, alarm_count> alarms {
+  Alarm{Alarm::Type::caution},
+  Alarm{Alarm::Type::advisory},
+  Alarm{Alarm::Type::warning}, // 1
+  Alarm{Alarm::Type::caution},
+  Alarm{Alarm::Type::caution},
+  Alarm{Alarm::Type::caution},
+  Alarm{Alarm::Type::advisory},
+  Alarm{Alarm::Type::warning}, // 2
+  Alarm{Alarm::Type::warning}, // 3
+  Alarm{Alarm::Type::caution},
+  Alarm{Alarm::Type::advisory},
+  Alarm{Alarm::Type::warning}, // 4
+};
 
-  std::array<Alarm, sz> local {
-    Alarm{ Alarm::Type::caution },  Alarm{ Alarm::Type::caution },
-    Alarm{ Alarm::Type::advisory }, Alarm{ Alarm::Type::caution },
-    Alarm{ Alarm::Type::warning }, // (1)
-    Alarm{ Alarm::Type::caution },  Alarm{ Alarm::Type::caution },
-    Alarm{ Alarm::Type::advisory }, Alarm{ Alarm::Type::advisory },
-    Alarm{ Alarm::Type::caution },  Alarm{ Alarm::Type::warning }, // (2)
-    Alarm{ Alarm::Type::caution },  Alarm{ Alarm::Type::warning }, // (3)
-    Alarm{ Alarm::Type::caution },  Alarm{ Alarm::Type::warning }, // (4)
-    Alarm{ Alarm::Type::caution }
-  };
+static constexpr unsigned warning_count {4};
 
-  assert(std::none_of(std::begin(local), std::end(local),
-                      [](auto a) {
-                        return a.type() == Alarm::Type::invalid;
-                      }));
+int main() {
+  {
+    auto count = std::count_if(
+      std::begin(alarms), std::end(alarms), 
+      [](auto alarm) { return alarm.type() == Alarm::Type::warning; }
+    );
+    assert(count == warning_count);
+  }
 
-  auto warnings = [](const auto& a) {
-    return a.type() == Alarm::Type::warning;
-  };
+  {
+    auto remove = std::remove_if(
+      std::begin(alarms), std::end(alarms), 
+      [](auto alarm) { return alarm.type() == Alarm::Type::warning; }
+    );
+    
+    // fill end of array with invalid objects
+    std::fill(remove,  std::end(alarms), Alarm{}); 
 
-  auto warn_count = std::count_if(std::begin(local), std::end(local),
-                                  warnings);
-  assert(warn_count == 4);
+    auto count = std::count_if(
+      std::begin(alarms), std::end(alarms), 
+      [](auto alarm) { return alarm.type() == Alarm::Type::warning; }
+    );
+    assert(count == 0);
 
-  auto remove_it = std::remove_if(std::begin(local), std::end(local),
-                                   warnings);
-
-  // fill end of array with invalid objects
-  std::fill(remove_it,  std::end(local), Alarm{});
-
-  auto count = std::count_if(std::begin(local), std::end(local),
-                            warnings);
-  assert(count == 0);
-
-  count = std::count_if(std::begin(local), std::end(local),
-                        [](const auto& e) {
-                          return e.type() == Alarm::Type::invalid;
-                        });
-  assert(count == 4);
-
-  std::cout << "Completed OK" << '\n';
+    // check we din't remove everything including caution
+    count = std::count_if(
+      std::begin(alarms), std::end(alarms), 
+      [](auto alarm) { return alarm.type() != Alarm::Type::invalid; }
+    );
+    assert(count == (std::size(alarms) - warning_count));
+  }
+  std::cout << "Completed OK\n";
 }

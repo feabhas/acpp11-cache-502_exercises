@@ -4,7 +4,7 @@
 
 #include "Buffer.h"
 
-bool Buffer::add(const Alarm& in)
+bool Buffer::add(Alarm const& in)
 {
   if (num_elems == sz) return false;
 
@@ -31,4 +31,9 @@ bool Buffer::get(Alarm&  out)
 bool Buffer::is_empty() const
 {
   return (num_elems == 0);
+}
+
+bool Buffer::is_full() const
+{
+  return (num_elems == sz);
 }

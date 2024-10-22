@@ -2,23 +2,22 @@
 // See project README.md for disclaimer and additional information.
 // Feabhas Ltd
 
-#include <iostream>
 #include "Display.h"
 #include "Pipe.h"
+#include <cassert>
+#include <iostream>
 
-Display::Display(Pipe& pipe) : input{ &pipe } {}
+Display::Display(Pipe& ip) : input{&ip} {}
 
-void Display::execute()
-{
-  if (input->is_empty()) return;
+void Display::execute() {
+  assert(input);
 
-  while (auto alarm = input->pull()) {
-    std::cout << "<<< Display: " << *alarm << '\n';
+  if (auto alarm = input->pull()) {
+    std::cout << "Display:  " << *alarm << '\n';
   }
-  std::cout << '\n';
+
 }
 
-// void connect(Display& display, Pipe& pipe)
-// {
-//   display.input = &pipe;
-// }
+void connect(Display& display, Pipe& pipe) {
+  display.input = &pipe;
+}
